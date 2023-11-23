@@ -1,5 +1,8 @@
 spring:
-    datasource:
-        url: "jdbc:mysql://localhost:3306"
-        username: "sponewsapp"
-        password: "rocketracoon"
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${OAUTH2_GOOGLE_CLIENT_ID}
+            client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET}

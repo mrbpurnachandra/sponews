@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>स्पो न्यूज</title>
+</head>
+
+<body>
+<div class="container mt-4" layout:fragment="content">
+    <h3 class="display-6">लेखक प्रोफाइल सिर्जना गर्नुहोस्</h3>
+
+    <div class="mb-3">
+        <label for="description" class="form-label visually-hidden">आफ्नो बारेमा</label>
+        <textarea class="form-control" id="description" rows="3">आफ्नो बारेमा</textarea>
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-primary">सिर्जना गर्नुहोस्</button>
+    </div>
+</div>
+
+</body>
+
+</html>

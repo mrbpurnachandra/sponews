@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="container mt-4" layout:fragment="content">
+    <h3 class="display-6">लेख रचना गर्नुहोस्</h3>
+
+    <form action="/article/create" method="post" class="mt-4">
+        <div class="mb-3">
+            <label for="title" class="form-label visually-hidden">शीर्षक</label>
+            <input class="form-control" id="title" name="title" placeholder="शीर्षक">
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label visually-hidden">सामग्री</label>
+            <textarea class="form-control" id="content" rows="3">सामग्री</textarea>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">प्रकाशित गर्नुहोस्</button>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
+<head></head>
 <body>
-    <div class="container mt-4" layout:fragment="content">
-        <h1 class="display-4">खेलकुद सम्बन्धि सम्पूर्ण जानकारी</h1>
+<div class="container mt-4" layout:fragment="content">
+    <h1 class="display-4">खेलकुद सम्बन्धि सम्पूर्ण जानकारी</h1>
 
-        <div class="mt-4">
+    <div class="row mt-4">
+        <div class="col mt-2" th:each="article : ${articles}">
             <div class="card" style="width: 18rem;">
-                <!-- <img src="/assets/thumb.jpeg" class="card-img-top" alt="Thumbnail"> -->
                 <div class="card-body">
-
-                    <span class="badge text-bg-success  ">cricket</span>
-                    <p class="card-text fs-5"><a href="/article/show.html">शान्ति सम्झौताका १८ वर्ष : पीडितलाई धोका</a>
+                    <span class="badge text-bg-success">cricket</span>
+                    <p class="card-text fs-5"><a th:href="@{/article/{id}(id=${article.id})}" th:text="${article.title}"></a>
                     </p>
                 </div>
             </div>
         </div>
-
-        <div sec:authorize="isAuthenticated()">
-            <div sec:authentication="principal.attributes"></div>
-        </div>
     </div>
-</body>
 
+    <div sec:authorize="isAuthenticated()">
+            <pre>
+                <div sec:authentication="principal.attributes"></div>
+            </pre>
+    </div>
+</div>
+</body>
 </html>

@@ -2,23 +2,21 @@
 <html lang="en" xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<head></head>
 <body>
 
 <div class="container mt-4" layout:fragment="content">
     <h3 class="display-6">लेख रचना गर्नुहोस्</h3>
-
-    <form action="/article/create" method="post" class="mt-4">
+    <form th:action="@{/article/create}" th:object="${article}" method="post" class="mt-4">
         <div class="mb-3">
             <label for="title" class="form-label visually-hidden">शीर्षक</label>
-            <input class="form-control" id="title" name="title" placeholder="शीर्षक">
+            <p th:if="${#fields.hasErrors('title')}" class="text-danger">शीर्षक कम्तिमा 4 अक्षर लामो हुनुपर्छ</p>
+            <input class="form-control" th:field="*{title}" placeholder="शीर्षक">
         </div>
         <div class="mb-3">
             <label for="content" class="form-label visually-hidden">सामग्री</label>
-            <textarea class="form-control" id="content" rows="3">सामग्री</textarea>
+            <p th:if="${#fields.hasErrors('content')}" class="text-danger">सामग्री कम्तिमा 64 र अधिकतम 2048 अक्षर लामो हुनुपर्छ</p>
+            <textarea class="form-control" th:field="*{content}" rows="3" placeholder="सामग्री"></textarea>
         </div>
 
         <div>

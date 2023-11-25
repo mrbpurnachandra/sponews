@@ -2,28 +2,25 @@
 <html lang="en" xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<head></head>
 <body>
 
-<div class="container mt-4" layout:fragment="content">
+<div class="container mt-4" layout:fragment="content" th:object="${article}">
     <div class="my-2">
         <span class="badge text-bg-success">क्रिकेट</span>
     </div>
-    <h3 class="display-6">शान्ति सम्झौताका १८ वर्ष : पीडितलाई धोका</h3>
+    <h3 class="display-6" th:text="*{title}">शान्ति सम्झौताका १८ वर्ष : पीडितलाई धोका</h3>
     <div class="flex">
-        <span class="text-secondary">मंसिर ५, २०८०</span>
+        <span class="text-secondary" th:text="*{publishedOn}">मंसिर ५, २०८०</span>
         <span class="mx-2">घनश्याम खड्का</span>
     </div>
 
-    <div class="mt-4 w-100 bg-black ">
-        <img src="/assets/thumb.jpeg" alt="Thumbnail" class="roundecd w-100 h-100 object-fit-cover">
-    </div>
+<!--    <div class="mt-4 w-100 bg-black ">-->
+<!--        <img src="/assets/thumb.jpeg" alt="Thumbnail" class="roundecd w-100 h-100 object-fit-cover">-->
+<!--    </div>-->
 
     <div class="mt-4">
-        <p class="fs-5">
+        <p class="fs-5" th:text="*{content}">
             तत्कालीन विद्रोही माओवादी र सात दलबीच २०६३ मंसिर ५ मा १२ बुँदे सम्झौता गर्दै देशमा न्याय, परिवर्तन र
             शान्ति ल्याउने वाचा गरेका थिए । बृहत् शान्ति सम्झौता भनेर चिनिने त्यस ऐतिहासिक दिनमा दलहरूले गरेका मुख्य
             तीन प्रतिबद्धता थिए– सेना समायोजन, राज्यको पुनःसंरचनासहित संविधानको निर्माण र संक्रमणकालीन न्यायको
@@ -52,5 +49,4 @@
 </div>
 
 </body>
-
 </html>

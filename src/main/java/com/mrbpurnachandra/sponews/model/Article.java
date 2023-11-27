@@ -14,6 +14,9 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    private Author author;
+
     @NotNull
     @Size(min = 4, message = "Title should be atleast 4 characters.")
     private String title;

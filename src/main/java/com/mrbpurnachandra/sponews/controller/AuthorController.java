@@ -1,13 +1,16 @@
 package com.mrbpurnachandra.sponews.controller;
 
 import com.mrbpurnachandra.sponews.model.Author;
+import com.mrbpurnachandra.sponews.service.ArticleService;
 import com.mrbpurnachandra.sponews.service.AuthorService;
 import jakarta.validation.Valid;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -16,16 +19,17 @@ import java.util.Optional;
 @Controller
 public class AuthorController {
     private final AuthorService authorService;
+    private final ArticleService articleService;
 
-    public AuthorController(AuthorService authorService) {
+    public AuthorController(AuthorService authorService, ArticleService articleService) {
         this.authorService = authorService;
+        this.articleService = articleService;
     }
 
     @GetMapping("/author/create")
     public String create(@ModelAttribute Author author, OAuth2AuthenticationToken authentication) {
         String email = authentication.getPrincipal().getAttribute("email");
-        Optional<Author> optionalAuthor = authorService.findAuthorByEmail(email);
-        if (optionalAuthor.isPresent()) {
+        if (authorService.isAuthorRegistered(email)) {
             return "redirect:/profile";
         }
 
@@ -39,8 +43,7 @@ public class AuthorController {
         }
 
         String email = authentication.getPrincipal().getAttribute("email");
-        Optional<Author> optionalAuthor = authorService.findAuthorByEmail(email);
-        if (optionalAuthor.isEmpty()) {
+        if(!authorService.isAuthorRegistered(email)) {
             author.setEmail(email);
             authorService.save(author);
 
@@ -50,8 +53,17 @@ public class AuthorController {
         return "redirect:/profile";
     }
 
-    @GetMapping("/author/{id}")
-    public String show() {
+    @GetMapping("/author/{authorId}")
+    public String show(@PathVariable Integer authorId, RedirectAttributes redirectAttributes, Model model) {
+        Optional<Author> authorOptional = authorService.findById(authorId);
+        if(authorOptional.isEmpty()) {
+            redirectAttributes.addFlashAttribute("warning", "पृष्ठ फेला परेन");
+            return "redirect:/";
+        }
+
+        Author author = authorOptional.get();
+        model.addAttribute("author", author);
+        model.addAttribute("articles", articleService.findArticlesByAuthor(author));
         return "author/show";
     }
 }

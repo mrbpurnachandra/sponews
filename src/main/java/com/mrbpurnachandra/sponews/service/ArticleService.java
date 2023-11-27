@@ -1,6 +1,7 @@
 package com.mrbpurnachandra.sponews.service;
 
 import com.mrbpurnachandra.sponews.model.Article;
+import com.mrbpurnachandra.sponews.model.Author;
 import com.mrbpurnachandra.sponews.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,9 @@ public class ArticleService {
 
     public Iterable<Article> getArticlesForHome() {
         return articleRepository.findTop10ByOrderByPublishedOnDesc();
+    }
+
+    public Iterable<Article> findArticlesByAuthor(Author author) {
+        return articleRepository.findTop10ArticlesByAuthorOrderByPublishedOnDesc(author);
     }
 }

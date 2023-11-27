@@ -1,8 +1,11 @@
 package com.mrbpurnachandra.sponews.controller;
 
 import com.mrbpurnachandra.sponews.model.Article;
+import com.mrbpurnachandra.sponews.model.Author;
 import com.mrbpurnachandra.sponews.service.ArticleService;
+import com.mrbpurnachandra.sponews.service.AuthorService;
 import jakarta.validation.Valid;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,9 +18,11 @@ import java.util.Optional;
 @Controller
 public class ArticleController {
     private final ArticleService articleService;
+    private final AuthorService authorService;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, AuthorService authorService) {
         this.articleService = articleService;
+        this.authorService = authorService;
     }
 
     @GetMapping("/article/{articleId}")
@@ -33,15 +38,28 @@ public class ArticleController {
     }
 
     @GetMapping("/article/create")
-    public String create(@ModelAttribute Article article) {
+    public String create(@ModelAttribute Article article, OAuth2AuthenticationToken authentication) {
+        String email = authentication.getPrincipal().getAttribute("email");
+        if(!authorService.isAuthorRegistered(email)) {
+            return "redirect:/profile";
+        }
+
         return "article/create";
     }
 
     @PostMapping("/article/create")
-    public String add(@Valid Article article, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String add(@Valid Article article, BindingResult result, OAuth2AuthenticationToken authentication, RedirectAttributes redirectAttributes) {
         if(result.hasErrors()) {
             return "article/create";
         }
+
+        String email = authentication.getPrincipal().getAttribute("email");
+        Optional<Author> optionalAuthor = authorService.findAuthorByEmail(email);
+        if(optionalAuthor.isEmpty()) {
+            return "redirect:/profile";
+        }
+
+        article.setAuthor(optionalAuthor.get());
 
         Article savedArticle = articleService.save(article);
         redirectAttributes.addFlashAttribute("info", "लेख डाटाबेसमा बचत गरियो");

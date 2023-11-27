@@ -10,6 +10,12 @@
 
     <form th:action="@{/author/create}" th:object="${author}" method="post">
         <div class="mb-3">
+            <label for="name" class="form-label visually-hidden">नाम</label>
+            <p th:if="${#fields.hasErrors('name')}" class="text-danger">नाम कम्तिमा 4 अक्षर लामो हुनुपर्छ</p>
+            <input class="form-control" th:field="*{name}" placeholder="नाम">
+        </div>
+
+        <div class="mb-3">
             <label for="description" class="form-label visually-hidden">आफ्नो बारेमा</label>
             <p th:if="${#fields.hasErrors('description')}" class="text-danger">कम्तिमा 64 र अधिकतम 2048 अक्षर लामो हुनुपर्छ</p>
             <textarea class="form-control" id="description" th:field="*{description}" rows="3" placeholder="आफ्नो बारेमा"></textarea>

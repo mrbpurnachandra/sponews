@@ -18,7 +18,16 @@ public class AuthorService {
             return authorRepository.findByEmail(email);
     }
 
+    public boolean isAuthorRegistered(String authorEmail) {
+        Optional<Author> optionalAuthor = findAuthorByEmail(authorEmail);
+        return optionalAuthor.isPresent();
+    }
+
     public Author save(Author author) {
         return authorRepository.save(author);
+    }
+
+    public Optional<Author> findById(Integer authorId) {
+        return authorRepository.findById(authorId);
     }
 }

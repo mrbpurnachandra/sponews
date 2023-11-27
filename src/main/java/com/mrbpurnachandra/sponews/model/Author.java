@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(
@@ -20,9 +22,17 @@ public class Author {
     private String email;
 
     @NotNull
+    @Size(min = 4, message = "Name should be at least 4 characters.")
+    private String name;
+
+    @NotNull
     @Size(min = 16, max= 2048, message = "Description should be between 64 and 2048 characters.")
     @Lob
     private String description;
 
-    Date createdOn = new Date();
+    private Date createdOn = new Date();
+
+    @Transient
+    @OneToMany(mappedBy = "author")
+    private List<Article> articles = new ArrayList<>();
 }

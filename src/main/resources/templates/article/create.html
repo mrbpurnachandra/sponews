@@ -7,7 +7,7 @@
 
 <div class="container mt-4" layout:fragment="content">
     <h3 class="display-6">लेख रचना गर्नुहोस्</h3>
-    <form th:action="@{/article/create}" th:object="${article}" method="post" class="mt-4">
+    <form th:action="@{/article}" th:object="${article}" method="post" class="mt-4">
         <div class="mb-3">
             <label for="title" class="form-label visually-hidden">शीर्षक</label>
             <p th:if="${#fields.hasErrors('title')}" class="text-danger">शीर्षक कम्तिमा 4 अक्षर लामो हुनुपर्छ</p>

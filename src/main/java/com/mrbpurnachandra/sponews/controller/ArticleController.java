@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -38,7 +40,11 @@ public class ArticleController {
     }
 
     @GetMapping("/article/create")
-    public String create(@ModelAttribute Article article, OAuth2AuthenticationToken authentication) {
+    public String create(Model model, OAuth2AuthenticationToken authentication) {
+        if(!model.containsAttribute("article")) {
+            model.addAttribute("article", new Article());
+        }
+
         String email = authentication.getPrincipal().getAttribute("email");
         if(!authorService.isAuthorRegistered(email)) {
             return "redirect:/profile";
@@ -47,10 +53,13 @@ public class ArticleController {
         return "article/create";
     }
 
-    @PostMapping("/article/create")
+    @PostMapping("/article")
     public String add(@Valid Article article, BindingResult result, OAuth2AuthenticationToken authentication, RedirectAttributes redirectAttributes) {
         if(result.hasErrors()) {
-            return "article/create";
+            Map<String, Object> modelMap = result.getModel();
+            modelMap.forEach(redirectAttributes::addFlashAttribute);
+
+            return "redirect:article/create";
         }
 
         String email = authentication.getPrincipal().getAttribute("email");

@@ -8,7 +8,7 @@
 <div class="container mt-4" layout:fragment="content">
     <h3 class="display-6">लेखक प्रोफाइल सिर्जना गर्नुहोस्</h3>
 
-    <form th:action="@{/author/create}" th:object="${author}" method="post">
+    <form th:action="@{/author}" th:object="${author}" method="post">
         <div class="mb-3">
             <label for="name" class="form-label visually-hidden">नाम</label>
             <p th:if="${#fields.hasErrors('name')}" class="text-danger">नाम कम्तिमा 4 अक्षर लामो हुनुपर्छ</p>

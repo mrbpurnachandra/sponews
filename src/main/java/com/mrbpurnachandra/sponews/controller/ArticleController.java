@@ -105,7 +105,7 @@ public class ArticleController {
 
         comment.setArticle(optionalArticle.get());
         comment.setEmail(user.getAttribute("email"));
-        comment.setName(user.getName());
+        comment.setName(user.getAttribute("name"));
         Comment savedComment = commentService.save(comment);
 
         return new CommentDTO(savedComment);

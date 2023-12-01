@@ -20,7 +20,7 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
-    public Optional<Article> findById(Integer articleId) {
+    public Optional<Article> findById(Long articleId) {
         return articleRepository.findById(Long.valueOf(articleId));
     }
 

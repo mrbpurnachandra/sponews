@@ -28,7 +28,7 @@ public class SecurityConfiguration {
         })
         .oauth2Login(customizer -> {
             customizer.loginPage("/");  
-            customizer.defaultSuccessUrl("/");
+            customizer.defaultSuccessUrl("/", true);
         })
         .logout(customizer -> customizer.logoutSuccessUrl("/"))
         .build(); 

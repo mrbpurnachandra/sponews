@@ -2,19 +2,22 @@
 <html lang="en" xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
 
-<head></head>
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script th:src="@{/js/comment.js}"></script>
+</head>
 <body>
 
 <div class="container mt-4" layout:fragment="content" th:object="${article}">
     <h3 class="display-6" th:text="*{title}">शान्ति सम्झौताका १८ वर्ष : पीडितलाई धोका</h3>
     <div class="flex">
         <span class="text-secondary" th:text="*{publishedOn}">मंसिर ५, २०८०</span>
-        <span class="mx-2" ><a th:href="@{/author/{id}(id=${article.author.id})}" th:text="*{author.name}"></a></span>
+        <span class="mx-2"><a th:href="@{/author/{id}(id=${article.author.id})}" th:text="*{author.name}"></a></span>
     </div>
 
-<!--    <div class="mt-4 w-100 bg-black ">-->
-<!--        <img src="/assets/thumb.jpeg" alt="Thumbnail" class="roundecd w-100 h-100 object-fit-cover">-->
-<!--    </div>-->
+    <!--    <div class="mt-4 w-100 bg-black ">-->
+    <!--        <img src="/assets/thumb.jpeg" alt="Thumbnail" class="roundecd w-100 h-100 object-fit-cover">-->
+    <!--    </div>-->
 
     <div class="mt-4">
         <p class="fs-5" th:text="*{content}">
@@ -42,6 +45,46 @@
             वर्गीकरण गरी घुमाउरो बाटोबाट पीडकलाई पुनः उन्मुक्ति दिन लागिएको भन्दै विधेयकका अनेकन प्रावधानमा विरोध
             पनि हुँदै आएको छ ।
         </p>
+    </div>
+
+    <div class="mt-5">
+        <h6 class="fs-4">टिप्पणीहरू</h6>
+        <div class="mt-4" sec:authorize="isAuthenticated()">
+            <p class="text-danger visually-hidden" id="content-error">केहि गलत भयो</p>
+            <form class="row" method="post" th:action="@{/article/{articleId}/comment(articleId=*{article.id})}"
+                  th:object="${comment}" id="commentForm">
+                <input type="hidden" th:field="*{article.id}"/>
+                <div class="col-auto">
+                    <label for="content" class="visually-hidden">टिप्पणी सामग्री</label>
+                    <textarea class="form-control" id="content" th:field="*{content}" placeholder="टिप्पणी" rows="4"
+                              cols="60"></textarea>
+                    <p class="text-body-secondary"><small>टिप्पणी सामग्र कम्तिमा 4 अक्षर लामो
+                        हुनुपर्छ</small></p>
+                </div>
+
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">टिप्पणी पोस्ट गर्नुहोस्</button>
+                </div>
+            </form>
+        </div>
+        <div class="mt-5" sec:authorize="!isAuthenticated()">
+            <a th:href="@{/oauth2/authorization/google}">कृपया टिप्पणी पोस्ट गर्न साइन इन गर्नुहोस्</a>
+        </div>
+        <div class="mt-5">
+            <div>
+                <div class="card" style="max-width: 560px;">
+                    <div class="card-body">
+                        <div class="card-text">तर, सरकारले त्यसलाई अटेर गर्दै पुरानै ऐनका साथ सत्य निरूपण तथा मेलमिलाप
+                            आयोग र बेपत्ता पारिएका व्यक्तिको
+                            छानबिन आयोग गठन गरेको थियो 
+                        </div>
+                        <div class="card-text">
+                            <small class="text-body-secondary">घनश्याम खड्का</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

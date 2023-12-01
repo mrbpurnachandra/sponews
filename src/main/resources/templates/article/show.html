@@ -3,7 +3,8 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script th:src="@{/js/comment.js}"></script>
 </head>
 <body>
@@ -71,18 +72,8 @@
             <a th:href="@{/oauth2/authorization/google}">कृपया टिप्पणी पोस्ट गर्न साइन इन गर्नुहोस्</a>
         </div>
         <div class="mt-5">
-            <div>
-                <div class="card" style="max-width: 560px;">
-                    <div class="card-body">
-                        <div class="card-text">तर, सरकारले त्यसलाई अटेर गर्दै पुरानै ऐनका साथ सत्य निरूपण तथा मेलमिलाप
-                            आयोग र बेपत्ता पारिएका व्यक्तिको
-                            छानबिन आयोग गठन गरेको थियो 
-                        </div>
-                        <div class="card-text">
-                            <small class="text-body-secondary">घनश्याम खड्का</small>
-                        </div>
-                    </div>
-                </div>
+            <div th:attr="data-id=${article.id}" id="comment-container">
+
             </div>
         </div>
     </div>

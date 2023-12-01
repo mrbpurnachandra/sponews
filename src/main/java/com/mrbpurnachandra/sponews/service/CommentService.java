@@ -17,4 +17,8 @@ public class CommentService {
     public Comment save(Comment comment) {
         return commentRepository.save(comment);
     }
+
+    public Iterable<Comment> findAll() {
+        return commentRepository.findTop10ByOrderByPublishedOnDesc();
+    }
 }

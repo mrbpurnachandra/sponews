@@ -23,6 +23,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/article/create").authenticated();
+            authorize.requestMatchers("GET", "/article/{articleId}/comment");
             authorize.requestMatchers("/", "/article/{articleId}", "/author/{authorId}").permitAll();
             authorize.anyRequest().authenticated(); 
         })

@@ -19,6 +19,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -107,6 +109,17 @@ public class ArticleController {
         Comment savedComment = commentService.save(comment);
 
         return new CommentDTO(savedComment);
+    }
+
+    @ResponseBody
+    @GetMapping("/article/{articleId}/comment")
+    public List<CommentDTO> index() {
+        List<CommentDTO> comments = new ArrayList<>();
+        for (var comment: commentService.findAll()) {
+            comments.add(new CommentDTO(comment));
+        }
+
+        return comments;
     }
 
 }

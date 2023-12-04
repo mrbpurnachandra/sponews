@@ -10,6 +10,9 @@ import com.mrbpurnachandra.sponews.service.AuthorService;
 import com.mrbpurnachandra.sponews.service.CommentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -20,10 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @Controller
@@ -119,13 +119,22 @@ public class ArticleController {
 
     @ResponseBody
     @GetMapping("/article/{articleId}/comment")
-    public List<CommentDTO> index(@PathVariable Long articleId) {
+    public Map<String, Object> index(@PathVariable Long articleId, @RequestParam Integer page) {
+        Pageable pageable = PageRequest.of(page, 5);
+
         List<CommentDTO> comments = new ArrayList<>();
-        for (var comment: commentService.findAllForArticle(articleId)) {
+
+        Page<Comment> commentPage = commentService.findAllForArticle(articleId, pageable);
+
+        for (var comment: commentPage) {
             comments.add(new CommentDTO(comment));
         }
 
-        return comments;
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", comments);
+        map.put("hasNext", commentPage.hasNext());
+
+        return map;
     }
 
 }

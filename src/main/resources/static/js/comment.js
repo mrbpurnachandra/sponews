@@ -2,7 +2,7 @@ $(document).ready(function () {
     const commentForm = $("#commentForm");
     const container = $("#comment-container");
 
-    if(commentForm) {
+    if (commentForm) {
         commentForm.on("submit", function (event) {
             event.preventDefault();
 
@@ -27,21 +27,26 @@ $(document).ready(function () {
     }
 });
 
-$(document).ready(function () {
+$(document).ready(() => loadComments(0))
+
+function loadComments(page) {
     const container = $("#comment-container");
     const id = container.attr("data-id");
 
+    unrenderLoadMoreButton(container);
+
     $.ajax({
         type: "GET",
-        url: `http://localhost:8080/article/${id}/comment`,
-        success(comments) {
-            comments.forEach(comment => render(container, comment));
+        url: `http://localhost:8080/article/${id}/comment?page=${page}`,
+        success(response) {
+            response.data.forEach(comment => render(container, comment));
+            if (response.hasNext) renderLoadMoreButton(container, page + 1);
         },
         error(err) {
             console.log(err);
         }
     })
-})
+}
 
 function render(container, comment, top = false) {
     const innerContent = `
@@ -60,4 +65,21 @@ function render(container, comment, top = false) {
     elem.style.marginTop = "15px";
 
     top ? container.prepend(elem) : container.append(elem);
+}
+
+function renderLoadMoreButton(container, page) {
+    const button = `
+        <button class="btn btn-link" onclick="loadComments(${page})">थप लोड गर्नुहोस्</button>
+    `;
+
+    const elem = document.createElement("div");
+    elem.innerHTML = button;
+    elem.className = "mt-4";
+    elem.id = "load-more-button";
+
+    container.append(elem);
+}
+
+function unrenderLoadMoreButton() {
+    $("#load-more-button").remove();
 }

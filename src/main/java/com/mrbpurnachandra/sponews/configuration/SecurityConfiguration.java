@@ -23,9 +23,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/article/create").authenticated();
-            authorize.requestMatchers("GET", "/article/{articleId}/comment");
+            authorize.requestMatchers("GET", "/article/{articleId}/comment").permitAll();
             authorize.requestMatchers("/", "/article/{articleId}", "/author/{authorId}").permitAll();
-            authorize.anyRequest().authenticated(); 
+            authorize.requestMatchers("/js/**").permitAll();
+            authorize.anyRequest().authenticated();
         })
         .oauth2Login(customizer -> {
             customizer.loginPage("/");  

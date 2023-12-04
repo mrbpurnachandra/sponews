@@ -1,5 +1,6 @@
 package com.mrbpurnachandra.sponews.service;
 
+import com.mrbpurnachandra.sponews.model.Article;
 import com.mrbpurnachandra.sponews.model.Comment;
 import com.mrbpurnachandra.sponews.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,10 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public Iterable<Comment> findAll() {
-        return commentRepository.findTop10ByOrderByPublishedOnDesc();
+    public Iterable<Comment> findAllForArticle(Long articleId) {
+        Article article = new Article();
+        article.setId(articleId);
+
+        return commentRepository.findTop10ByArticleOrderByPublishedOnDesc(article);
     }
 }

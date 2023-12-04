@@ -113,9 +113,9 @@ public class ArticleController {
 
     @ResponseBody
     @GetMapping("/article/{articleId}/comment")
-    public List<CommentDTO> index() {
+    public List<CommentDTO> index(@PathVariable Long articleId) {
         List<CommentDTO> comments = new ArrayList<>();
-        for (var comment: commentService.findAll()) {
+        for (var comment: commentService.findAllForArticle(articleId)) {
             comments.add(new CommentDTO(comment));
         }
 

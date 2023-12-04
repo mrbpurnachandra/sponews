@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +31,14 @@ public class ArticleController {
     private final ArticleService articleService;
     private final AuthorService authorService;
     private final CommentService commentService;
+    private final DateFormat dateFormat;
 
     @Autowired
-    public ArticleController(ArticleService articleService, AuthorService authorService, CommentService commentService) {
+    public ArticleController(ArticleService articleService, AuthorService authorService, CommentService commentService, DateFormat dateFormat) {
         this.articleService = articleService;
         this.authorService = authorService;
         this.commentService = commentService;
+        this.dateFormat = dateFormat;
     }
 
     @GetMapping("/article/{articleId}")
@@ -47,11 +50,14 @@ public class ArticleController {
         }
 
         Article article = optionalArticle.get();
+        String formattedDate = dateFormat.format(article.getPublishedOn());
+
         Comment comment = new Comment();
         comment.setArticle(article);
 
         model.addAttribute("article", article);
         model.addAttribute("comment", comment);
+        model.addAttribute("formattedDate", formattedDate);
 
         return "article/show";
     }

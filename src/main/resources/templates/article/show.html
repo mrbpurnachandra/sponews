@@ -12,7 +12,7 @@
 <div class="container mt-4" layout:fragment="content" th:object="${article}">
     <h3 class="display-6" th:text="*{title}">शान्ति सम्झौताका १८ वर्ष : पीडितलाई धोका</h3>
     <div class="flex">
-        <span class="text-secondary" th:text="*{publishedOn}">मंसिर ५, २०८०</span>
+        <span class="text-secondary" th:text="${formattedDate}">मंसिर ५, २०८०</span>
         <span class="mx-2"><a th:href="@{/author/{id}(id=${article.author.id})}" th:text="*{author.name}"></a></span>
     </div>
 

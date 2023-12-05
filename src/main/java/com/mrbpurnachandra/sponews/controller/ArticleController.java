@@ -8,6 +8,7 @@ import com.mrbpurnachandra.sponews.model.Comment;
 import com.mrbpurnachandra.sponews.service.ArticleService;
 import com.mrbpurnachandra.sponews.service.AuthorService;
 import com.mrbpurnachandra.sponews.service.CommentService;
+import com.mrbpurnachandra.sponews.util.HTMLSanitizer;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -92,6 +93,9 @@ public class ArticleController {
         }
 
         article.setAuthor(optionalAuthor.get());
+
+        // Sanitize the HTML before saving the article
+        article.setContent(HTMLSanitizer.sanitize(article.getContent()));
 
         Article savedArticle = articleService.save(article);
         redirectAttributes.addFlashAttribute("info", "लेख डाटाबेसमा बचत गरियो");

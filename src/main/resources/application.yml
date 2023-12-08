@@ -15,3 +15,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+
+emotion-prediction:
+  uri: "http://localhost:5000/predict"

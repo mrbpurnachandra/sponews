@@ -19,6 +19,8 @@ public class Comment {
     @Lob
     private String content;
 
+    private Emotion emotion;
+
     private String email;
 
     private String name;
@@ -28,4 +30,11 @@ public class Comment {
 
     private Date publishedOn = new Date();
 
+
+    public enum Emotion {
+        HAPPY,
+        SAD
+    }
 }
+
+

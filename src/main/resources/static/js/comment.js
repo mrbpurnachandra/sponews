@@ -52,8 +52,11 @@ function render(container, comment, top = false) {
     const innerContent = `
         <div class="card" style="max-width: 560px">
             <div class="card-body">
+                <div class="my-2">
+                    <span>${generateEmoji(comment.emotion)}</span>
+                </div>
                 <div class="card-text">${comment.content}</div>
-                <div class="card-text">
+                <div class="card-text mt-2">
                     <small class="text-body-secondary">${comment.name}</small>
                 </div>
             </div>  
@@ -65,6 +68,17 @@ function render(container, comment, top = false) {
     elem.style.marginTop = "15px";
 
     top ? container.prepend(elem) : container.append(elem);
+}
+
+function generateEmoji(emotion) {
+    switch (emotion) {
+        case "HAPPY":
+            return "☺️☺️☺️☺️️"
+        case "SAD":
+            return "💔💔💔💔"
+        default:
+            return "❓"
+    }
 }
 
 function renderLoadMoreButton(container, page) {

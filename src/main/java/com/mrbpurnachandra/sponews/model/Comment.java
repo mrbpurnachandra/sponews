@@ -33,7 +33,10 @@ public class Comment {
 
     public enum Emotion {
         HAPPY,
-        SAD
+        SAD,
+        ANGRY,
+        SURPRISE,
+        FEAR
     }
 }
 

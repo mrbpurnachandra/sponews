@@ -76,6 +76,12 @@ function generateEmoji(emotion) {
             return "☺️☺️☺️☺️️"
         case "SAD":
             return "💔💔💔💔"
+        case "ANGRY":
+            return "😡😡😡😡"
+        case "SURPRISE":
+            return "😱😱😱😱"
+        case "FEAR":
+            return "🥶🥶🥶🥶"
         default:
             return "❓"
     }

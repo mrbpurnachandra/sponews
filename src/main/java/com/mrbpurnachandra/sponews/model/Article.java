@@ -26,7 +26,7 @@ public class Article {
 
     @NotNull
     @Size(min=64, max = 2048, message = "Content should be between 64 and 2048 characters.")
-    @Lob
+    @Column(length = 2048)
     private String content;
 
     @Transient

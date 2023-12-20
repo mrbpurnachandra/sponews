@@ -27,7 +27,7 @@ public class Author {
 
     @NotNull
     @Size(min = 16, max= 2048, message = "Description should be between 64 and 2048 characters.")
-    @Lob
+    @Column(length = 2048)
     private String description;
 
     private Date createdOn = new Date();

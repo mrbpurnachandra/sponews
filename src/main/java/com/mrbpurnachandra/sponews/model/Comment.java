@@ -16,7 +16,7 @@ public class Comment {
 
     @NotNull
     @Size(min = 4, max = 1024, message = "Content should be between 4 and 1024 characters.")
-    @Lob
+    @Column(length = 1024)
     private String content;
 
     private Emotion emotion;

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
+
+<head>
+    <title>लेखहरू खोज्नुहोस्</title>
+</head>
+<body>
+
+<div class="container mt-4" layout:fragment="content" >
+    <div class="mt-4">
+        <form class="d-flex" role="search" action="/article/search">
+            <input
+                    class="form-control form-control-lg me-2"
+                    type="text"
+                    name="name"
+                    placeholder="नाम द्वारा खोज्नुहोस्"
+                    aria-label="search articles by name"
+                    th:value="${param.name != null ? param.name : ''}"
+            />
+            <button type="submit" class="btn btn-primary btn-lg">
+                लेख खोज्नुहोस्
+            </button>
+        </form>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col mt-2" th:each="article : ${articles}">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <p class="card-text fs-5"><a th:href="@{/article/{id}(id=${article.id})}" th:text="${article.title}"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4" th:if="${ param.name == null }">
+        <p>तपाईंले कुनै लेख खोज्नु भएको छैन</p>
+    </div>
+
+    <div class="container mt-4" th:if="${param.name != null and #lists.isEmpty(articles) }">
+        <p>प्रदान गरिएको नामसँग मेल खाने कुनै लेख फेला परेन</p>
+    </div>
+</div>
+</body>
+</html>

@@ -5,6 +5,7 @@ import com.mrbpurnachandra.sponews.model.Author;
 import com.mrbpurnachandra.sponews.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,11 @@ public class ArticleService {
 
     public Iterable<Article> findArticlesByAuthor(Author author) {
         return articleRepository.findTop10ArticlesByAuthorOrderByPublishedOnDesc(author);
+    }
+
+    public Iterable<Article> findArticlesMatchingName(String name) {
+        String queryName = "%" + name + "%";
+
+        return articleRepository.findByTitleLikeIgnoreCase(queryName);
     }
 }

@@ -16,7 +16,7 @@ public class SecurityConfiguration {
         return http.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/article/create").authenticated();
             authorize.requestMatchers("GET", "/article/{articleId}/comment").permitAll();
-            authorize.requestMatchers("/", "/article/{articleId}", "/author/{authorId}").permitAll();
+            authorize.requestMatchers("/", "/article/search", "/article/{articleId}", "/author/{authorId}").permitAll();
             authorize.requestMatchers("/js/**").permitAll();
             authorize.anyRequest().authenticated();
         })

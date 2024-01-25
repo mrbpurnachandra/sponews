@@ -13,7 +13,13 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
         <a class="navbar-brand" href="/">स्पो न्यूज</a>
-        <div class="d-flex">
+
+        <div class="d-flex align-items-center">
+            <ul class="navbar-nav me-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="/article/search">लेख खोज्नुहोस्</a>
+                </li>
+            </ul>
             <a th:href="@{/oauth2/authorization/google}" class="flex btn btn-outline-danger rounded-pill"
                sec:authorize="!isAuthenticated()">
                     <span class="me-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"

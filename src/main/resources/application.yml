@@ -15,6 +15,7 @@ spring:
     database-platform: "org.hibernate.dialect.PostgreSQLDialect"
     hibernate:
       ddl-auto: update
+    show-sql: true
 
 emotion-prediction:
   uri: "http://localhost:5000/predict"

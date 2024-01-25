@@ -112,6 +112,19 @@ public class ArticleController {
         return "redirect:/article/" + savedArticle.getId();
     }
 
+    @GetMapping("/article/search")
+    public String searchArticles(@RequestParam(value = "name", required = false) String name, Model model) {
+        Iterable<Article> articles = new ArrayList<>();
+
+        if(name != null) {
+            articles = articleService.findArticlesMatchingName(name);
+        }
+
+        model.addAttribute("articles", articles);
+
+        return "article/search";
+    }
+
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/article/{articleId}/comment")

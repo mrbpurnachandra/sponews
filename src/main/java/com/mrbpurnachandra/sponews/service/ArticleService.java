@@ -3,9 +3,10 @@ package com.mrbpurnachandra.sponews.service;
 import com.mrbpurnachandra.sponews.model.Article;
 import com.mrbpurnachandra.sponews.model.Author;
 import com.mrbpurnachandra.sponews.repository.ArticleRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,8 +30,8 @@ public class ArticleService {
         return articleRepository.findTop10ByOrderByPublishedOnDesc();
     }
 
-    public Iterable<Article> findArticlesByAuthor(Author author) {
-        return articleRepository.findTop10ArticlesByAuthorOrderByPublishedOnDesc(author);
+    public Page<Article> findArticlesByAuthor(Author author, Pageable pageable) {
+        return articleRepository.findArticlesByAuthorOrderByPublishedOnDesc(author, pageable);
     }
 
     public Iterable<Article> findArticlesMatchingName(String name) {

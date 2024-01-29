@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
+      layout:decorate="~{layout/layout}">
 
 <head></head>
 
@@ -45,6 +45,18 @@
                         </p>
                     </div>
                 </div>
+            </div>
+            <div class="mt-4">
+                <nav aria-label="article pagination">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link"
+                                                 th:href="@{/author/{authorId}(authorId=${author.id}, page=${articles.previousOrFirstPageable().getPageNumber()})}">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link"
+                                                 th:href="@{/author/{authorId}(authorId=${author.id}, page=${articles.nextOrLastPageable().getPageNumber()})}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

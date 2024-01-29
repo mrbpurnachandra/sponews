@@ -4,6 +4,7 @@ import com.mrbpurnachandra.sponews.model.Author;
 import com.mrbpurnachandra.sponews.service.ArticleService;
 import com.mrbpurnachandra.sponews.service.AuthorService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
@@ -61,7 +63,13 @@ public class AuthorController {
     }
 
     @GetMapping("/author/{authorId}")
-    public String show(@PathVariable Integer authorId, RedirectAttributes redirectAttributes, Model model) {
+    public String show(
+            @PathVariable Integer authorId,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
         Optional<Author> authorOptional = authorService.findById(authorId);
         if(authorOptional.isEmpty()) {
             redirectAttributes.addFlashAttribute("warning", "पृष्ठ फेला परेन");
@@ -70,7 +78,9 @@ public class AuthorController {
 
         Author author = authorOptional.get();
         model.addAttribute("author", author);
-        model.addAttribute("articles", articleService.findArticlesByAuthor(author));
+
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        model.addAttribute("articles", articleService.findArticlesByAuthor(author, pageable));
         return "author/show";
     }
 }

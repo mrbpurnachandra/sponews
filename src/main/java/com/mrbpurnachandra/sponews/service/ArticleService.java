@@ -36,6 +36,6 @@ public class ArticleService {
     public Iterable<Article> findArticlesMatchingName(String name) {
         String queryName = "%" + name + "%";
 
-        return articleRepository.findByTitleLikeIgnoreCase(queryName);
+        return articleRepository.findTop10ByTitleLikeIgnoreCase(queryName);
     }
 }

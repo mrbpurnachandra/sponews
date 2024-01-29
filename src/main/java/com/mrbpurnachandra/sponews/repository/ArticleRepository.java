@@ -11,6 +11,5 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
     Iterable<Article> findTop10ByOrderByPublishedOnDesc();
     Iterable<Article> findTop10ArticlesByAuthorOrderByPublishedOnDesc(Author author);
 
-    @Query("select a from Article a where upper(a.title) like upper(?1) ")
-    Iterable<Article> findByTitleLikeIgnoreCase(String title);
+    Iterable<Article> findTop10ByTitleLikeIgnoreCase(String title);
 }

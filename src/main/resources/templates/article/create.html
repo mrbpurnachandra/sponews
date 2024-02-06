@@ -3,7 +3,12 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
 
 <head>
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
@@ -19,8 +24,7 @@
             <label for="content" class="form-label visually-hidden">सामग्री</label>
             <p th:if="${#fields.hasErrors('content')}" class="text-danger">सामग्री कम्तिमा 64 र अधिकतम 2048 अक्षर लामो हुनुपर्छ</p>
             <input type="hidden" th:field="*{content}">
-            <div id="editor" aria-label="input"></div>
-
+            <textarea id="content-editor" aria-label="input"></textarea>
         </div>
 
         <div>
@@ -28,36 +32,40 @@
         </div>
     </form>
 
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-    <!-- Initialize Quill editor -->
     <script>
-        var quill = new Quill('#editor', {
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-                    ['blockquote'],
+        var simplemde = new SimpleMDE({
+            toolbar: [
+                "bold",
+                "italic",
+                "strikethrough",
+                "|",
+                "quote",
+                "|",
+                "ordered-list",
+                "unordered-list",
+                "|",
+                "heading-2",
+                "heading-3",
+                "|",
+                "preview",
+            ],
 
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    [{ 'header': [3, 4, false] }],
-                ]
-
-            },
-            theme: 'snow',
+            element: document.getElementById("content-editor"),
         });
 
         const articleForm = document.getElementById("article-form");
 
         articleForm.addEventListener("submit", function (event) {
             event.preventDefault();
+            const content = marked.parse(simplemde.value());
 
-            if(quill.getLength() < 64 || quill.getLength() > 2048) {
-
+            if(content.length < 64 || content.length > 2048) {
                 alert("सामग्री कम्तिमा 64 र बढीमा 2048 अक्षर लामो हुनुपर्छ")
                 return;
             }
 
             const contentInput = document.getElementById("content");
-            contentInput.value = quill.root.innerHTML;
+            contentInput.value = content;
 
             event.target.submit();
         });

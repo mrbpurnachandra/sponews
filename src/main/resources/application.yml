@@ -16,5 +16,12 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  cloud:
+    gcp:
+      project-id: "file-upload-1332c"
+      credentials:
+        default-scopes: "www.googleapis.com/auth/devstorage.read_write"
+        location: "classpath:firebase-storage-credentials.json"
+
 emotion-prediction:
   uri: "http://localhost:5000/predict"

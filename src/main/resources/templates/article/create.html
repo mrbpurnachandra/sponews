@@ -9,6 +9,9 @@
     />
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
 </head>
 <body>
 
@@ -32,6 +35,77 @@
         </div>
     </form>
 
+    <div class="modal" id="image-upload-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Image</h5>
+                    <button
+                            aria-label="Close"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            type="button"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="imageInput">Select Image</label>
+                        <div class="alert alert-danger" id="upload-error" role="alert">
+                            Upload Failed! Please try again.
+                        </div>
+
+                        <div id="url-container">
+                            <div
+                                    class="d-flex justify-content-between align-items-center alert alert-secondary"
+                            >
+                                <p class="font-monospace text-truncate me-4" id="image-url">
+                                    Text
+                                </p>
+                                <button
+                                        class="btn btn-outline-secondary"
+                                        data-clipboard-target="#image-url"
+                                        id="image-url-copy-button"
+                                >
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <form id="image-form">
+                            <input id="csrf" name="_csrf" th:value="${_csrf.getToken()}" type="hidden"/>
+                            <input
+                                    accept="image/*"
+                                    class="form-control"
+                                    id="imageInput"
+                                    type="file"
+                            />
+                        </form>
+                    </div>
+                    <div>
+                        <img
+                                alt="Preview"
+                                class="img-fluid border"
+                                id="imagePreview"
+                                src=""
+                        />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                            type="button"
+                    >
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" id="upload-button" type="button">
+                        Upload File
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var simplemde = new SimpleMDE({
             toolbar: [
@@ -50,6 +124,17 @@
                 "image",
                 "|",
                 "preview",
+                "|",
+
+                {
+                    name: "upload",
+                    action: function customFunction(editor) {
+                        const modal = new bootstrap.Modal("#image-upload-modal");
+                        modal.show();
+                    },
+                    className: "fa fa-upload",
+                    title: "Upload Image",
+                },
             ],
 
             element: document.getElementById("content-editor"),
@@ -72,6 +157,106 @@
             event.target.submit();
         });
 
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#imagePreview").hide();
+            $("#upload-error").hide();
+            $("#url-container").hide();
+
+            $("#upload-button").prop("disabled", true);
+
+            // Handle Image Input Change
+            $("#imageInput").change(function () {
+                var file = this.files[0];
+                if (file && file.type.match("image/.*")) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#imagePreview").attr("src", e.target.result).show();
+                        $("#upload-button").prop("disabled", false);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    $("#imagePreview").removeAttr("src").hide();
+                    $("#upload-button").prop("disabled", true);
+                }
+            });
+
+            // Handle Image Upload
+            $("#upload-button").click((event) => {
+                $("#upload-button").prop("disabled", true);
+                $("#upload-error").hide();
+                $("#url-container").hide();
+
+                const image = $("#imageInput")[0].files[0];
+
+                if (!image) {
+                    $("#upload-button").prop("disabled", true);
+                    return;
+                }
+
+                uploadImage(image);
+
+                $("#upload-button").prop("disabled", false);
+            });
+        });
+
+        function uploadImage(image) {
+            const imageInfo = {
+                name: image.name,
+                size: image.size,
+                type: image.type,
+                _csrf: $("#csrf").val()
+            };
+
+            $.ajax({
+                url: "http://localhost:8080/upload/image",
+                type: "POST",
+                data: $.param(imageInfo),
+                processData: false,
+                contentType: "application/x-www-form-urlencoded",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(
+                        "Authorization",
+                        "Basic " + btoa("mrbpurnachandra:rocketracoon")
+                    );
+                },
+                success: function (response) {
+                    var fileName = response.name;
+                    var bucket = response.bucket;
+                    var signedURL = response.signedURL;
+
+                    $.ajax({
+                        url: signedURL,
+                        type: "PUT",
+                        data: new Blob([image]),
+                        contentType: image.type,
+                        accepts: "application/xml",
+                        processData: false,
+                        success: function (uploadResponse) {
+                            const url = `https://storage.googleapis.com/${bucket}/${fileName}`;
+                            $("#image-url").text(url);
+
+                            $("#url-container").show();
+
+                            $("#image-form")[0].reset();
+                            $("#imagePreview").hide();
+                            $("#upload-button").prop("disabled", true);
+                        },
+                        error: function (xhr, status, error) {
+                            $("#upload-error").show();
+                        },
+                    });
+                },
+                error: function (xhr, status, error) {
+                    $("#upload-error").show();
+                },
+            });
+        }
+    </script>
+
+    <script>
+        new ClipboardJS("#image-url-copy-button");
     </script>
 </div>
 

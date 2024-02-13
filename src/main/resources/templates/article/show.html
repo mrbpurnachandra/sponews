@@ -6,6 +6,12 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script th:src="@{/js/comment.js}"></script>
+    <style type="text/css">
+        .article-container img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
 
@@ -21,7 +27,7 @@
     <!--    </div>-->
 
     <div class="mt-4">
-        <div class="fs-5" th:utext="*{content}">
+        <div class="fs-5 article-container" th:utext="*{content}">
             तत्कालीन विद्रोही माओवादी र सात दलबीच २०६३ मंसिर ५ मा १२ बुँदे सम्झौता गर्दै देशमा न्याय, परिवर्तन र
             शान्ति ल्याउने वाचा गरेका थिए । बृहत् शान्ति सम्झौता भनेर चिनिने त्यस ऐतिहासिक दिनमा दलहरूले गरेका मुख्य
             तीन प्रतिबद्धता थिए– सेना समायोजन, राज्यको पुनःसंरचनासहित संविधानको निर्माण र संक्रमणकालीन न्यायको

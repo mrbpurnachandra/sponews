@@ -55,7 +55,34 @@
     </div>
 
     <div class="mt-5">
-        <h6 class="fs-4">टिप्पणीहरू</h6>
+        <div class="d-flex align-items-center justify-content-between">
+            <h6 class="fs-4">टिप्पणीहरू</h6>
+            <button class="btn btn-outline-secondary" sec:authorize="isAuthenticated()"
+                    th:attr="onclick=${'getStatistics(' + article.id + ')'}" th:if="${#authentication.principal.email == article.author.email}">Get
+                Details
+            </button>
+        </div>
+        <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.email == article.author.email}">
+            <div aria-hidden="true" aria-labelledby="comment-statistics-modal-label" class="modal fade" id="comment-statistics-modal"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="comment-statistics-modal-label">Comment Statistics</h5>
+                            <button aria-label="Close" class="close" data-dismiss="modal" onclick="$('#comment-statistics-modal').modal('hide');"
+                                    type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="comment-statistics-container">
+                            <p>Total Number of Comments: <span id="totalComments"></span></p>
+                            <canvas id="commentsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-4" sec:authorize="isAuthenticated()">
             <p class="text-danger visually-hidden" id="content-error">केहि गलत भयो</p>
             <form class="row" method="post" th:action="@{/article/{articleId}/comment(articleId=*{article.id})}"
@@ -83,6 +110,66 @@
             </div>
         </div>
     </div>
+    <script sec:authorize="isAuthenticated()" src="https://cdn.jsdelivr.net/npm/chart.js"
+            th:if="${#authentication.principal.email == article.author.email}"></script>
+    <script>
+        function getStatistics(id) {
+            $("#comment-statistics-modal").modal("show");
+
+            $.ajax({
+                url: `http://localhost:8080/article/${id}/statistics`,
+                type: 'GET',
+                success: function (response) {
+                    displayStatistics(response);
+                },
+                error: function (xhr, status, error) {
+                    $("#comment-statistics-container").innerHTML = "Something went wrong";
+                }
+            });
+        }
+
+        function displayStatistics(statistics) {
+            const totalComments = Object.keys(statistics).map(item => statistics[item]).reduce((a, b) => a + b);
+
+            // Populate modal content
+            document.getElementById("totalComments").innerText = totalComments;
+
+            // Generate pie chart
+            const canvas = document.getElementById("commentsChart")
+            const ctx = canvas.getContext("2d");
+
+            // Check if there's an existing chart instance and destroy it
+            if (window.chart) {
+                window.chart.destroy();
+            }
+
+            window.chart = new Chart(ctx, {
+                type: "pie",
+                data: {
+                    labels: Object.keys(statistics),
+                    datasets: [
+                        {
+                            data: Object.values(statistics),
+                            backgroundColor: [
+                                "#ff6384",
+                                "#36a2eb",
+                                "#ffce56",
+                                "#4bc0c0",
+                                "#9966ff",
+                                "#ff7f50",
+                            ],
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: "bottom",
+                    },
+                },
+            });
+        }
+    </script>
 </div>
 
 </body>

@@ -5,6 +5,7 @@ import com.mrbpurnachandra.sponews.dto.EmotionPredictionRequestDTO;
 import com.mrbpurnachandra.sponews.dto.EmotionPredictionResponseDTO;
 import com.mrbpurnachandra.sponews.exception.ArticleNotFoundException;
 import com.mrbpurnachandra.sponews.model.Article;
+import com.mrbpurnachandra.sponews.model.ArticleStatistics;
 import com.mrbpurnachandra.sponews.model.Author;
 import com.mrbpurnachandra.sponews.model.Comment;
 import com.mrbpurnachandra.sponews.props.EmotionPredictionProps;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -110,6 +112,19 @@ public class ArticleController {
         Article savedArticle = articleService.save(article);
         redirectAttributes.addFlashAttribute("info", "लेख डाटाबेसमा बचत गरियो");
         return "redirect:/article/" + savedArticle.getId();
+    }
+
+    @ResponseBody
+    @GetMapping("/article/{id}/statistics")
+    public ArticleStatistics statistics(@PathVariable("id") Long id, OAuth2AuthenticationToken authentication) {
+        String email = authentication.getPrincipal().getAttribute("email");
+        Optional<Author> optionalAuthor = authorService.findAuthorByEmail(email);
+
+        if (optionalAuthor.isEmpty()) {
+            throw new AccessDeniedException("Unauthorized action");
+        }
+
+        return articleService.getArticleStatistics(id, optionalAuthor.get());
     }
 
     @GetMapping("/article/search")

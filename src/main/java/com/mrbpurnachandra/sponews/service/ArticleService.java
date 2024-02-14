@@ -1,10 +1,13 @@
 package com.mrbpurnachandra.sponews.service;
 
+import com.mrbpurnachandra.sponews.exception.ArticleNotFoundException;
 import com.mrbpurnachandra.sponews.model.Article;
+import com.mrbpurnachandra.sponews.model.ArticleStatistics;
 import com.mrbpurnachandra.sponews.model.Author;
 import com.mrbpurnachandra.sponews.repository.ArticleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,9 +15,11 @@ import java.util.Optional;
 @Service
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final CommentService commentService;
 
-    public ArticleService(ArticleRepository articleRepository) {
+    public ArticleService(ArticleRepository articleRepository, CommentService commentService) {
         this.articleRepository = articleRepository;
+        this.commentService = commentService;
     }
 
 
@@ -32,6 +37,18 @@ public class ArticleService {
 
     public Page<Article> findArticlesByAuthor(Author author, Pageable pageable) {
         return articleRepository.findArticlesByAuthorOrderByPublishedOnDesc(author, pageable);
+    }
+
+    public ArticleStatistics getArticleStatistics(Long id, Author author) {
+        Optional<Article> optionalArticle = findById(id);
+
+        Article article = optionalArticle.orElseThrow(ArticleNotFoundException::new);
+
+        if (!article.getAuthor().equals(author)) {
+            throw new AccessDeniedException("Unauthorized action");
+        }
+
+        return commentService.getArticleStatistics(id);
     }
 
     public Iterable<Article> findArticlesMatchingName(String name) {

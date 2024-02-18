@@ -101,7 +101,10 @@
     <div class="mt-5">
         <div class="d-flex align-items-center justify-content-between">
             <h6 class="fs-4">टिप्पणीहरू</h6>
-            <button class="btn btn-outline-secondary" sec:authorize="isAuthenticated()"
+            <button class="btn btn-outline-secondary"
+                    data-bs-target="#comment-statistics-modal"
+                    data-bs-toggle="modal"
+                    sec:authorize="isAuthenticated()"
                     th:attr="onclick=${'getStatistics(' + article.id + ')'}" th:if="${#authentication.principal.email == article.author.email}">Get
                 Details
             </button>
@@ -113,9 +116,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="comment-statistics-modal-label">Comment Statistics</h5>
-                            <button aria-label="Close" class="close" data-dismiss="modal" onclick="$('#comment-statistics-modal').modal('hide');"
+                            <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
                                     type="button">
-                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body" id="comment-statistics-container">
@@ -158,8 +160,6 @@
             th:if="${#authentication.principal.email == article.author.email}"></script>
     <script>
         function getStatistics(id) {
-            $("#comment-statistics-modal").modal("show");
-
             $.ajax({
                 url: `http://localhost:8080/article/${id}/statistics`,
                 type: 'GET',

@@ -14,12 +14,56 @@
     </style>
 </head>
 <body>
-
 <div class="container mt-4" layout:fragment="content" th:object="${article}">
     <h3 class="display-6" th:text="*{title}">शान्ति सम्झौताका १८ वर्ष : पीडितलाई धोका</h3>
     <div class="flex">
         <span class="text-secondary" th:text="${formattedDate}">मंसिर ५, २०८०</span>
         <span class="mx-2"><a th:href="@{/author/{id}(id=${article.author.id})}" th:text="*{author.name}"></a></span>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center mt-4" id="tag-list">
+        <span class="mt-2 badge rounded-pill text-bg-success me-4" th:each="tag: ${article.tags}" th:text="${tag.name}">hello</span>
+    </div>
+
+    <button
+            sec:authorize="isAuthenticated()" src="https://cdn.jsdelivr.net/npm/chart.js"
+            th:if="${#authentication.principal.email == article.author.email}"
+            type="button" class="mt-4 btn btn-outline-secondary rounded-pill" data-bs-toggle="modal" data-bs-target="#add-tag-modal">
+        ट्याग थप्नुहोस्
+    </button>
+
+    <div class="modal fade" id="add-tag-modal" tabindex="-1" role="dialog" aria-labelledby="add-tag-modal-label"
+         aria-hidden="true"
+         sec:authorize="isAuthenticated()" src="https://cdn.jsdelivr.net/npm/chart.js"
+         th:if="${#authentication.principal.email == article.author.email}"
+    >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-tag-modal-label">ट्याग थप्नुहोस्</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+
+                <form method="post" id="add-tag-form" th:attr="data-id=${article.id}">
+                    <div class="modal-body">
+                        <div class="alert alert-danger" role="alert" id="add-tag-alert">
+                            केहि गलत भयो
+                        </div>
+                        <input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>
+
+                        <label for="tag-name" class="form-label">ट्याग</label>
+                        <input type="text" id="name" name="name" class="form-control" aria-describedby="tag-name-help">
+                        <div id="tag-name-help" class="form-text">
+                            ट्याग कम्तिमा २ वर्ण र बढीमा २४ वर्णको हुनुपर्छ
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">थप्नुहोस्</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!--    <div class="mt-4 w-100 bg-black ">-->
@@ -169,6 +213,37 @@
                 },
             });
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#add-tag-alert").hide();
+
+            $("#add-tag-form").submit(function (event) {
+                event.preventDefault();
+                $("#add-tag-alert").hide();
+
+                const name = $('#name').val();
+
+                if (name.length < 2 || name.length > 24) {
+                    return;
+                }
+
+                const articleId = this.getAttribute("data-id");
+
+                $.ajax({
+                    url: `http://localhost:8080/article/${articleId}/tag`,
+                    type: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $("#tag-list").append(`<span class="badge rounded-pill text-bg-success">${name}</span>`)
+                        $("#add-tag-modal").modal("hide");
+                    },
+                    error: function(xhr, status, error) {
+                        $("#add-tag-alert").show();
+                    }
+                });
+            });
+        });
     </script>
 </div>
 

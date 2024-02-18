@@ -3,11 +3,9 @@ package com.mrbpurnachandra.sponews.controller;
 import com.mrbpurnachandra.sponews.dto.CommentDTO;
 import com.mrbpurnachandra.sponews.dto.EmotionPredictionRequestDTO;
 import com.mrbpurnachandra.sponews.dto.EmotionPredictionResponseDTO;
+import com.mrbpurnachandra.sponews.dto.TagDTO;
 import com.mrbpurnachandra.sponews.exception.ArticleNotFoundException;
-import com.mrbpurnachandra.sponews.model.Article;
-import com.mrbpurnachandra.sponews.model.ArticleStatistics;
-import com.mrbpurnachandra.sponews.model.Author;
-import com.mrbpurnachandra.sponews.model.Comment;
+import com.mrbpurnachandra.sponews.model.*;
 import com.mrbpurnachandra.sponews.props.EmotionPredictionProps;
 import com.mrbpurnachandra.sponews.service.ArticleService;
 import com.mrbpurnachandra.sponews.service.AuthorService;
@@ -125,6 +123,24 @@ public class ArticleController {
         }
 
         return articleService.getArticleStatistics(id, optionalAuthor.get());
+    }
+
+    @ResponseBody
+    @PostMapping("/article/{id}/tag")
+    public TagDTO addTag(@PathVariable("id") Long id, @Valid Tag tag, OAuth2AuthenticationToken authentication) {
+        Optional<Article> optionalArticle = articleService.findById(id);
+
+        Article article = optionalArticle.orElseThrow(ArticleNotFoundException::new);
+
+        if(!article.getAuthor().getEmail().equals(authentication.getPrincipal().getAttribute("email"))) {
+            throw new AccessDeniedException("Unauthorized action");
+        }
+
+        tag.setArticle(article);
+
+       Tag savedTag = articleService.saveTag(tag);
+
+       return new TagDTO(savedTag.getId(), savedTag.getName());
     }
 
     @GetMapping("/article/search")

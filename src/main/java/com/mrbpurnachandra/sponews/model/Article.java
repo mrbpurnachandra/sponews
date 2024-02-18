@@ -33,5 +33,8 @@ public class Article {
     @OneToMany(mappedBy = "article")
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "article")
+    private List<Tag> tags = new ArrayList<>();
+
     private Date publishedOn = new Date();
 }

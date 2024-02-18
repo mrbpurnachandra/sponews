@@ -4,7 +4,9 @@ import com.mrbpurnachandra.sponews.exception.ArticleNotFoundException;
 import com.mrbpurnachandra.sponews.model.Article;
 import com.mrbpurnachandra.sponews.model.ArticleStatistics;
 import com.mrbpurnachandra.sponews.model.Author;
+import com.mrbpurnachandra.sponews.model.Tag;
 import com.mrbpurnachandra.sponews.repository.ArticleRepository;
+import com.mrbpurnachandra.sponews.repository.TagRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -16,10 +18,13 @@ import java.util.Optional;
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CommentService commentService;
+    private final TagRepository tagRepository;
 
-    public ArticleService(ArticleRepository articleRepository, CommentService commentService) {
+    public ArticleService(ArticleRepository articleRepository, CommentService commentService,
+                          TagRepository tagRepository) {
         this.articleRepository = articleRepository;
         this.commentService = commentService;
+        this.tagRepository = tagRepository;
     }
 
 
@@ -55,5 +60,9 @@ public class ArticleService {
         String queryName = "%" + name + "%";
 
         return articleRepository.findTop10ByTitleLikeIgnoreCase(queryName);
+    }
+
+    public Tag saveTag(Tag tag) {
+        return tagRepository.save(tag);
     }
 }

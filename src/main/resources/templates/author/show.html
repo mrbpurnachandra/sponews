@@ -37,12 +37,28 @@
         </div>
 
         <div class="row">
-            <div class="mt-4 col" th:each="article: ${articles}">
-                <div class="card" style="width: 18rem;">
+            <div class="col mt-2" th:each="article : ${articles}">
+                <div class="card col-auto" style="width: 18rem;">
                     <div class="card-body">
-                        <p class="card-text fs-5"><a th:href="@{/article/{id}(id=${article.id})}" th:text="${article.title}">शान्ति सम्झौताका १८ वर्ष : पीडितलाई
-                            धोका</a>
+                        <h5 class="card-title">
+                            <a class="text-body-emphasis" th:href="@{/article/{id}(id=${article.id})}"
+                               th:text="${article.title}"></a>
+                        </h5>
+                        <p>
+                            <svg class="bi bi-vector-pen" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                 width="16"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828zm-1.8 2.908-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z"
+                                      fill-rule="evenodd"/>
+                                <path d="M2.832 13.228 8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086z" fill-rule="evenodd"/>
+                            </svg>
+                            <span class="ms-2" th:text="${article.author.name}"></span>
                         </p>
+                        <p th:text="${article.getShortContent()}"></p>
+                        <div>
+                            <span class="mt-2 badge rounded-pill text-bg-success me-4" th:each="tag: ${article.tags}"
+                                  th:text="${tag.name}"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -50,10 +66,10 @@
                 <nav aria-label="article pagination">
                     <ul class="pagination">
                         <li class="page-item"><a class="page-link"
-                                                 th:href="@{/author/{authorId}(authorId=${author.id}, page=${articles.previousOrFirstPageable().getPageNumber()})}">Previous</a>
+                                                 th:href="@{/author/{authorId}(authorId=${author.id}, page=${articles.previousOrFirstPageable().getPageNumber()})}">अघिल्लो</a>
                         </li>
                         <li class="page-item"><a class="page-link"
-                                                 th:href="@{/author/{authorId}(authorId=${author.id}, page=${articles.nextOrLastPageable().getPageNumber()})}">Next</a>
+                                                 th:href="@{/author/{authorId}(authorId=${author.id}, page=${articles.nextOrLastPageable().getPageNumber()})}">अर्को</a>
                         </li>
                     </ul>
                 </nav>

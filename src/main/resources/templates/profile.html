@@ -62,7 +62,7 @@
                 <a th:href="@{/author/create}" class="btn btn-primary">लेखक प्रोफाइल सिर्जना गर्नुहोस्</a>
             </div>
 
-            <div class="my-3" th:if="${author}">
+            <div class="my-3 d-flex justify-content-end" th:if="${author}">
                 <a href="/article/create" class="btn btn-primary ">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -75,26 +75,33 @@
                 </a>
             </div>
 
-            <div class="row" th:if="${author}">
-                <div class="mt-4 col" th:each="article: ${articles}">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <p class="card-text fs-5"><a th:href="@{/article/{id}(id=${article.id})}" th:text="${article.title}">शान्ति सम्झौताका १८ वर्ष :
-                                पीडितलाई
-                                धोका</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            <table class="table table-bordered table-striped" th:if="${author}">
+                <thead>
+                <tr>
+                    <th scope="col">शीर्षक</th>
+                    <th scope="col">प्रकाशित मिति</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="article: ${articles}">
+                    <td><a th:href="@{/article/{id}(id=${article.id})}" th:text="${article.title}">शान्ति सम्झौताका १८
+                        वर्ष :
+                        पीडितलाई
+                        धोका</a></td>
+                    <td th:text="${article.getFormattedDate()}"></td>
+                </tr>
+                </tbody>
+            </table>
 
+            <div class="row">
                 <div class="mt-4">
                     <nav aria-label="article pagination">
                         <ul class="pagination">
                             <li class="page-item"><a class="page-link"
-                                                     th:href="@{/profile(page=${articles.previousOrFirstPageable().getPageNumber()})}">Previous</a>
+                                                     th:href="@{/profile(page=${articles.previousOrFirstPageable().getPageNumber()})}">अघिल्लो</a>
                             </li>
                             <li class="page-item"><a class="page-link"
-                                                     th:href="@{/profile(page=${articles.nextOrLastPageable().getPageNumber()})}">Next</a>
+                                                     th:href="@{/profile(page=${articles.nextOrLastPageable().getPageNumber()})}">अर्को</a>
                             </li>
                         </ul>
                     </nav>

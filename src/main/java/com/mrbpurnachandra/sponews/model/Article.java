@@ -1,14 +1,16 @@
 package com.mrbpurnachandra.sponews.model;
 
+import com.mrbpurnachandra.sponews.util.HtmlParser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Data
@@ -37,4 +39,23 @@ public class Article {
     private List<Tag> tags = new ArrayList<>();
 
     private Date publishedOn = new Date();
+
+    public String getShortContent() {
+        String content = HtmlParser.extractText(this.content);
+        int contentLength = content.length();
+
+        int limit = Math.min(contentLength - 1, 120);
+
+        content = content.substring(0, limit);
+
+        if (limit < contentLength) content += "...";
+
+        return content;
+    }
+
+    public String getFormattedDate() {
+        var formatter = new SimpleDateFormat("EEE, d MMM yyyy", Locale.of("ne"));
+
+        return formatter.format(this.publishedOn);
+    }
 }

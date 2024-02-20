@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thyemleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
@@ -13,24 +13,32 @@
 </head>
 
 <body>
-<nav class="navbar sticky-top bg-dark border-bottom border-body navbar-expand-lg" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top border-bottom">
     <div class="container">
-        <a class="navbar-brand" href="/">स्पो न्यूज</a>
+        <a class="navbar-brand" href="/">
+            स्पो न्यूज
+        </a>
 
         <div class="d-flex align-items-center">
             <ul class="navbar-nav me-4">
                 <li class="nav-item">
-                    <a class="nav-link" href="/article/search">लेख खोज्नुहोस्</a>
+                    <a class="nav-link" href="/article/search">
+                        <svg class="bi bi-search" fill="currentColor" height="16" viewBox="0 0 16 16"
+                             width="16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+                    </a>
                 </li>
             </ul>
-            <a th:href="@{/oauth2/authorization/google}" class="flex btn btn-outline-danger rounded-pill"
+
+            <a class="flex align-items-center btn btn-outline-primary" th:href="@{/oauth2/authorization/google}"
                sec:authorize="!isAuthenticated()">
-                    <span class="me-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
-                            <path
-                                    d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/>
-                        </svg></span>
+                <svg class="bi bi-google me-2" fill="currentColor" height="16" viewBox="0 0 16 16"
+                     width="16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
+                </svg>
                 गुगलसँग साइन इन गर्नुहोस्</a>
+
             <a href="/profile" sec:authorize="isAuthenticated()">
                 <img th:src="${#authentication.principal.attributes.picture}"
                      th:alt="${#authentication.principal.attributes.name}" width="30px" height="30px"
@@ -39,6 +47,7 @@
         </div>
     </div>
 </nav>
+
 <div class="container" th:if="${info}">
     <div class="alert alert-success" role="alert" th:text="${info}">
     </div>

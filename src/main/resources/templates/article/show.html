@@ -15,26 +15,38 @@
 </head>
 <body>
 <div class="container mt-4" layout:fragment="content" th:object="${article}">
-    <h3 class="display-6" th:text="*{title}">शान्ति सम्झौताका १८ वर्ष : पीडितलाई धोका</h3>
+    <h3 class="display-6 fw-medium" th:text="*{title}"></h3>
+
     <div class="flex">
-        <span class="text-secondary" th:text="${formattedDate}">मंसिर ५, २०८०</span>
-        <span class="mx-2"><a th:href="@{/author/{id}(id=${article.author.id})}" th:text="*{author.name}"></a></span>
+        <span class="text-secondary" th:text="${formattedDate}"></span>
+        <a class="ms-4 text-body link-underline link-underline-opacity-0"
+           th:href="@{/author/{id}(id=${article.author.id})}">
+            <svg class="bi bi-vector-pen" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828zm-1.8 2.908-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z"
+                      fill-rule="evenodd"/>
+                <path d="M2.832 13.228 8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086z" fill-rule="evenodd"/>
+            </svg>
+            <span class="ms-2 text-body-emphasis" th:text="*{author.name}"></span>
+        </a>
     </div>
 
     <div class="d-flex flex-wrap align-items-center mt-4" id="tag-list">
-        <span class="mt-2 badge rounded-pill text-bg-success me-4" th:each="tag: ${article.tags}" th:text="${tag.name}">hello</span>
+        <span class="mt-2 badge rounded-pill text-bg-success me-4" th:each="tag: ${article.tags}"
+              th:text="${tag.name}"></span>
     </div>
 
     <button
-            sec:authorize="isAuthenticated()" src="https://cdn.jsdelivr.net/npm/chart.js"
+            class="mt-2 btn btn-sm btn-outline-primary"
             th:if="${#authentication.principal.email == article.author.email}"
-            type="button" class="mt-4 btn btn-outline-secondary rounded-pill" data-bs-toggle="modal" data-bs-target="#add-tag-modal">
+            data-bs-target="#add-tag-modal" data-bs-toggle="modal" sec:authorize="isAuthenticated()"
+            type="button">
         ट्याग थप्नुहोस्
     </button>
 
     <div class="modal fade" id="add-tag-modal" tabindex="-1" role="dialog" aria-labelledby="add-tag-modal-label"
          aria-hidden="true"
-         sec:authorize="isAuthenticated()" src="https://cdn.jsdelivr.net/npm/chart.js"
+         sec:authorize="isAuthenticated()"
          th:if="${#authentication.principal.email == article.author.email}"
     >
         <div class="modal-dialog" role="document">
@@ -66,62 +78,39 @@
         </div>
     </div>
 
-    <!--    <div class="mt-4 w-100 bg-black ">-->
-    <!--        <img src="/assets/thumb.jpeg" alt="Thumbnail" class="roundecd w-100 h-100 object-fit-cover">-->
-    <!--    </div>-->
-
     <div class="mt-4">
-        <div class="fs-5 article-container" th:utext="*{content}">
-            तत्कालीन विद्रोही माओवादी र सात दलबीच २०६३ मंसिर ५ मा १२ बुँदे सम्झौता गर्दै देशमा न्याय, परिवर्तन र
-            शान्ति ल्याउने वाचा गरेका थिए । बृहत् शान्ति सम्झौता भनेर चिनिने त्यस ऐतिहासिक दिनमा दलहरूले गरेका मुख्य
-            तीन प्रतिबद्धता थिए– सेना समायोजन, राज्यको पुनःसंरचनासहित संविधानको निर्माण र संक्रमणकालीन न्यायको
-            टुंगो ।
-            शान्ति सम्झौताका पक्षधरहरूले नै संक्रमणकालीन न्यायको बाटोलाई रोकेकाले यो अवस्था आएको विज्ञहरूको टिप्पणी
-            रहँदै आएको छ । ‘पीडितको न्याय पाउने अधिकार शान्ति सम्झौताका पक्षधरहरूले नै घोर उल्लंघन गरे,’
-            पूर्वप्रधानन्यायाधीश कल्याण श्रेष्ठ भन्छन्, ‘सम्झौताका पक्षधरहरूले यसलाई सत्तारोहणको छोटो बाटोका रूपमा
-            प्रयोग गरे जसले गर्दा पीडितमाथि ठूलो धोका भएको छ ।’ सत्तामा पुग्नका लागि दलहरूले यसलाई छलकपटको
-            बिन्दुसम्म दुरुपयोग गर्नाले संक्रमणकालीन न्याय जस्ताको तस्तै सुरुवाती अवस्थामा रहेको उनको विश्लेषण छ ।
-
-            सत्य निरूपण तथा मेलमिलाप आयोगको गठन गरेर अन्तरिम संविधान जारी भएको दुई वर्षभित्र द्वन्द्वका समयमा भएका
-            मानवअधिकार उल्लंघनका घटना टुंगो लगाउने शान्ति सम्झौतामा उल्लेख भए पनि त्यसको १८ वर्ष लागिसक्दासमेत
-            यसबारे कुनै काम हुन सकेको छैन । शान्ति सम्झौताको ८ वर्षपछि २०७१ मा जारी संक्रमणकालीन न्यायसम्बन्धी ऐनमा
-            गम्भीर मानवअधिकार उल्लंघनका दोषीलाई आम माफी दिने प्रावधान राखेपछि विवादमा परेको थियो जसलाई सर्वोच्च
-            अदालतले बदर गर्दै त्यसमा संशोधन गर्न आदेशसमेत दिएको थियो ।
-
-            तर, सरकारले त्यसलाई अटेर गर्दै पुरानै ऐनका साथ सत्य निरूपण तथा मेलमिलाप आयोग र बेपत्ता पारिएका व्यक्तिको
-            छानबिन आयोग गठन गरेको थियो । दुई वर्षका लागि गठन गर्ने भनिएका यी दुवै आयोगले चार–चार वर्ष बितिसक्दा पनि
-            कुनै काम गर्न नसकेपछि सरकारले त्यसलाई खारेज गर्दै नयाँ पदाधिकारीका साथ दुवै आयोग गठन गरेको थियो । त्यसले
-            पनि दुई वर्ष कुनै काम गर्न सकेन । हाल दुवै आयोग रिक्त छन् भने सर्वोच्च अदालतको आदेशअनुसार सरकारले संशोधन
-            गर्नुपर्ने विधेयक संसद्मा लामो समयदेखि विचाराधीन छन् । मानवअधिकार उल्लंघनका घटनालाई सामान्य र गम्भीर भनी
-            वर्गीकरण गरी घुमाउरो बाटोबाट पीडकलाई पुनः उन्मुक्ति दिन लागिएको भन्दै विधेयकका अनेकन प्रावधानमा विरोध
-            पनि हुँदै आएको छ ।
-        </div>
+        <div class="fs-5 article-container" th:utext="*{content}"></div>
     </div>
 
     <div class="mt-5">
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
             <h6 class="fs-4">टिप्पणीहरू</h6>
-            <button class="btn btn-outline-secondary"
+            <button class="ms-2 btn"
                     data-bs-target="#comment-statistics-modal"
                     data-bs-toggle="modal"
                     sec:authorize="isAuthenticated()"
-                    th:attr="onclick=${'getStatistics(' + article.id + ')'}" th:if="${#authentication.principal.email == article.author.email}">Get
-                Details
-            </button>
+                    th:attr="onclick=${'getStatistics(' + article.id + ')'}"
+                    th:if="${#authentication.principal.email == article.author.email}">
+                <svg class="bi bi-graph-up" fill="currentColor" height="16" viewBox="0 0 16 16"
+                     width="16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"
+                          fill-rule="evenodd"/>
+                </svg>
         </div>
+
         <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.email == article.author.email}">
             <div aria-hidden="true" aria-labelledby="comment-statistics-modal-label" class="modal fade" id="comment-statistics-modal"
                  role="dialog" tabindex="-1">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="comment-statistics-modal-label">Comment Statistics</h5>
+                            <h5 class="modal-title" id="comment-statistics-modal-label">टिप्पणी तथ्याङ्क</h5>
                             <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
                                     type="button">
                             </button>
                         </div>
                         <div class="modal-body" id="comment-statistics-container">
-                            <p>Total Number of Comments: <span id="totalComments"></span></p>
+                            <p>टिप्पणीको कुल संख्या: <span id="totalComments"></span></p>
                             <canvas id="commentsChart"></canvas>
                         </div>
                     </div>
@@ -129,28 +118,35 @@
             </div>
         </div>
 
-        <div class="mt-4" sec:authorize="isAuthenticated()">
+        <div class="mt-4 border p-4 rounded" sec:authorize="isAuthenticated()">
             <p class="text-danger visually-hidden" id="content-error">केहि गलत भयो</p>
             <form class="row" method="post" th:action="@{/article/{articleId}/comment(articleId=*{article.id})}"
                   th:object="${comment}" id="commentForm">
                 <input type="hidden" th:field="*{article.id}"/>
-                <div class="col-auto">
+                <div>
                     <label for="content" class="visually-hidden">टिप्पणी सामग्री</label>
-                    <textarea class="form-control" id="content" th:field="*{content}" placeholder="टिप्पणी" rows="4"
+                    <textarea class="form-control" id="content" placeholder="टिप्पणी" rows="4"
+                              style="resize: none; " th:field="*{content}"
                               cols="60"></textarea>
                     <p class="text-body-secondary"><small>टिप्पणी सामग्र कम्तिमा 4 अक्षर लामो
                         हुनुपर्छ</small></p>
                 </div>
 
-                <div class="col-auto">
+                <div>
                     <button type="submit" class="btn btn-primary mb-3">टिप्पणी पोस्ट गर्नुहोस्</button>
                 </div>
             </form>
         </div>
-        <div class="mt-5" sec:authorize="!isAuthenticated()">
-            <a th:href="@{/oauth2/authorization/google}">कृपया टिप्पणी पोस्ट गर्न साइन इन गर्नुहोस्</a>
+        <div sec:authorize="!isAuthenticated()">
+            <a class="flex align-items-center btn btn-outline-primary" sec:authorize="!isAuthenticated()"
+               th:href="@{/oauth2/authorization/google}">
+                <svg class="bi bi-google me-2" fill="currentColor" height="16" viewBox="0 0 16 16"
+                     width="16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
+                </svg>
+                गुगलसँग साइन इन गर्नुहोस्</a>
         </div>
-        <div class="mt-5">
+        <div class="mt-4">
             <div th:attr="data-id=${article.id}" id="comment-container">
 
             </div>

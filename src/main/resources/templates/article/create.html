@@ -39,7 +39,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Upload Image</h5>
+                    <h5 class="modal-title">छवि अपलोड गर्नुहोस्</h5>
                     <button
                             aria-label="Close"
                             class="btn-close"
@@ -49,9 +49,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label" for="imageInput">Select Image</label>
+                        <label class="form-label" for="imageInput">छवि चयन गर्नुहोस्</label>
                         <div class="alert alert-danger" id="upload-error" role="alert">
-                            Upload Failed! Please try again.
+                            अपलोड गर्न सकिएन! फेरि प्रयास गर्नुहोस।
                         </div>
 
                         <div id="url-container">
@@ -59,14 +59,18 @@
                                     class="d-flex justify-content-between align-items-center alert alert-secondary"
                             >
                                 <p class="font-monospace text-truncate me-4" id="image-url">
-                                    Text
+
                                 </p>
                                 <button
                                         class="btn btn-outline-secondary"
                                         data-clipboard-target="#image-url"
                                         id="image-url-copy-button"
                                 >
-                                    Copy
+                                    <svg class="bi bi-clipboard" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                         width="16" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -96,10 +100,10 @@
                             data-bs-dismiss="modal"
                             type="button"
                     >
-                        Cancel
+                        रद्द गर्नुहोस्
                     </button>
                     <button class="btn btn-primary" id="upload-button" type="button">
-                        Upload File
+                        अपलोड गर्नुहोस्
                     </button>
                 </div>
             </div>

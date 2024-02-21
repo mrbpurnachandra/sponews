@@ -231,7 +231,7 @@
                     type: "POST",
                     data: $(this).serialize(),
                     success: function(response) {
-                        $("#tag-list").append(`<span class="badge rounded-pill text-bg-success">${name}</span>`)
+                        $("#tag-list").append(`<span class="mt-2 badge rounded-pill text-bg-success">${name}</span>`)
                         $("#add-tag-modal").modal("hide");
                     },
                     error: function(xhr, status, error) {

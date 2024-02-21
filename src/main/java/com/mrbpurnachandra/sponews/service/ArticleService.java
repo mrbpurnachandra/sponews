@@ -65,4 +65,11 @@ public class ArticleService {
     public Tag saveTag(Tag tag) {
         return tagRepository.save(tag);
     }
+
+    public Iterable<Article> findArticlesMatchingTag(String tag) {
+        tag = "%" + tag.toLowerCase() + "%";
+        System.out.println(tag);
+
+        return articleRepository.findTop10ByTag(tag);
+    }
 }

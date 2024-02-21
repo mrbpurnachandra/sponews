@@ -144,11 +144,13 @@ public class ArticleController {
     }
 
     @GetMapping("/article/search")
-    public String searchArticles(@RequestParam(value = "name", required = false) String name, Model model) {
+    public String searchArticles(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "tag", required = false) String tag, Model model) {
         Iterable<Article> articles = new ArrayList<>();
 
         if(name != null) {
             articles = articleService.findArticlesMatchingName(name);
+        } else if (tag != null) {
+            articles = articleService.findArticlesMatchingTag(tag);
         }
 
         model.addAttribute("articles", articles);

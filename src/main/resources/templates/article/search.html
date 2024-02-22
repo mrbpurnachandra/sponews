@@ -77,8 +77,11 @@
                     </p>
                     <p th:text="${article.getShortContent()}"></p>
                     <div>
-                        <span class="mt-2 badge rounded-pill text-bg-success me-4" th:each="tag: ${article.tags}"
-                              th:text="${tag.name}"></span>
+                        <a th:each="tag: ${article.tags}" th:href="@{/article/search(tag=${tag.name})}">
+                            <span class="mt-2 badge rounded-pill text-bg-success me-4"
+                                  th:text="${tag.name}">
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>

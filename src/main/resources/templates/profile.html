@@ -6,54 +6,50 @@
 
 <body>
 <div layout:fragment="content">
-    <div class="mt-4">
-        <div class="card">
-            <div class="card-header">
-                प्रोफाइल
-            </div>
-
-            <div class="d-flex card-body">
-                <div class="me-4">
-                    <img th:src="${#authentication.principal.attributes.picture}" class="w-100 rounded"
-                         th:alt="${#authentication.principal.attributes.name}">
+    <div class="mt-4 d-flex justify-content-between flex-row-reverse">
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    प्रोफाइल
                 </div>
 
-                <div>
+                <div class="card-body">
                     <div>
-                        <h5 class="card-title"><span th:unless="${author}"
-                                th:text="${#authentication.principal.attributes.name}"></span><span th:if="${author}"
-                                th:text="${author.name}"></span><span
-                                class="text-secondary d-block fs-6 "><small
-                                th:text="${#authentication.principal.attributes.email}"></small></span>
-                        </h5>
+                        <div>
+                            <h5 class="card-title"><span th:unless="${author}"
+                                                         th:text="${#authentication.principal.attributes.name}"></span><span th:if="${author}"
+                                                                                                                             th:text="${author.name}"></span><span
+                                    class="text-secondary d-block fs-6 "><small
+                                    th:text="${#authentication.principal.attributes.email}"></small></span>
+                            </h5>
 
+                        </div>
+
+                        <p class="card-text mt-4" style="max-width: 560px;" th:if="${author}" th:text="${author.description}">दुई दशकदेखि पत्रकारिता गरिरहेका कार्कीले श्रम तथा
+                            आप्रवासन मामिलामा दख्खल राख्छन् । उनले खाडी क्षेत्र तथा मलेसियामा कार्यरत आप्रवासी
+                            श्रमिकमाथि
+                            रिपोटिङ गर्दै आएका छन् ।</p>
+                        <div class="mt-2">
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="btn btn-danger ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                                    </svg>
+                                    साइन आउट गर्नुहोस्
+                                </button>
+                            </form>
+
+                        </div>
                     </div>
 
-                    <p class="card-text mt-4" style="max-width: 560px;" th:if="${author}" th:text="${author.description}">दुई दशकदेखि पत्रकारिता गरिरहेका कार्कीले श्रम तथा
-                        आप्रवासन मामिलामा दख्खल राख्छन् । उनले खाडी क्षेत्र तथा मलेसियामा कार्यरत आप्रवासी
-                        श्रमिकमाथि
-                        रिपोटिङ गर्दै आएका छन् ।</p>
-                    <div class="mt-2">
-                        <form th:action="@{/logout}" method="post">
-                            <button type="submit" class="btn btn-danger ">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                     class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                          d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-                                    <path fill-rule="evenodd"
-                                          d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                                </svg>
-                                साइन आउट गर्नुहोस्
-                            </button>
-                        </form>
-
-                    </div>
                 </div>
-
             </div>
         </div>
-
-        <div class="mt-5 ">
+        <div>
             <div>
                 <h5 class="fw-bold ">तपाईका लेखहरु</h5>
             </div>

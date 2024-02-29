@@ -13,7 +13,7 @@
     </style>
 </head>
 <body>
-<div class="container mt-4" layout:fragment="content" th:object="${article}">
+<div class="container mt-4 mx-auto" style="max-width: 768px" layout:fragment="content" th:object="${article}">
     <h3 class="display-6 fw-medium" th:text="*{title}"></h3>
 
     <div class="flex">

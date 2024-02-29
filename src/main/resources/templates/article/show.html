@@ -3,8 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" layout:decorate="~{layout/layout}">
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
     <script th:src="@{/js/comment.js}"></script>
     <style type="text/css">
         .article-container img {
@@ -155,7 +154,7 @@
             </div>
         </div>
     </div>
-    <script sec:authorize="isAuthenticated()" src="https://cdn.jsdelivr.net/npm/chart.js"
+    <script sec:authorize="isAuthenticated()" th:src="@{/js/chart.js}"
             th:if="${#authentication.principal.email == article.author.email}"></script>
     <script>
         function getStatistics(id) {

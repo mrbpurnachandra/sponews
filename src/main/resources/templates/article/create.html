@@ -5,13 +5,12 @@
 <head>
     <link
             rel="stylesheet"
-            href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"
+            th:href="@{/css/simplemde.min.css}"
     />
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script crossorigin="anonymous"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+    <script th:src="@{/js/simplemde.min.js}"></script>
+    <script th:src="@{/js/marked.min.js}"></script>
+    <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+    <script th:src="@{/js/clipboard.min.js}"></script>
 </head>
 <body>
 

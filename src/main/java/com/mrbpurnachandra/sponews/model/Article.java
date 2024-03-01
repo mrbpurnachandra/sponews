@@ -32,10 +32,10 @@ public class Article {
     private String content;
 
     @Transient
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     private List<Tag> tags = new ArrayList<>();
 
     private Date publishedOn = new Date();

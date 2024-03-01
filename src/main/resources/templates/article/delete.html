@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head></head>
+<body>
+
+<div class="container mt-4" layout:fragment="content">
+    <h3 class="display-6" th:text="${article.title}">के तपाई साँच्चै मेटाउन चाहनुहुन्छ?</h3>
+    <form id="article-form" th:action="@{/article/{articleId}/delete(articleId=*{id})}" th:object="${article}" method="post" class="mt-4">
+        <p>के तपाई साँच्चै मेटाउन चाहनुहुन्छ?</p>
+
+        <div>
+            <button type="submit" class="btn btn-danger">मेटाउनुहोस्</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

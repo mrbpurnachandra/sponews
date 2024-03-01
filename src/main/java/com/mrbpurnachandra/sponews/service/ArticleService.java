@@ -72,4 +72,8 @@ public class ArticleService {
 
         return articleRepository.findTop10ByTag(tag);
     }
+
+    public void deleteArticle(Article article) {
+        articleRepository.delete(article);
+    }
 }

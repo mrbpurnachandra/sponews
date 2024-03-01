@@ -15,6 +15,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/article/create").authenticated();
+            authorize.requestMatchers("/article/{articleId}/delete").authenticated();
             authorize.requestMatchers("GET", "/article/{articleId}/comment").permitAll();
             authorize.requestMatchers("/", "/article/search", "/article/{articleId}", "/author/{authorId}").permitAll();
             authorize.requestMatchers("/**").permitAll();

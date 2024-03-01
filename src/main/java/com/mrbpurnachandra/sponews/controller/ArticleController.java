@@ -73,6 +73,48 @@ public class ArticleController {
         return "article/show";
     }
 
+    @GetMapping("/article/{articleId}/delete")
+    public String delete(@PathVariable Long articleId, Model model, RedirectAttributes redirectAttributes, OAuth2AuthenticationToken authentication) {
+        Optional<Article> optionalArticle = articleService.findById(articleId);
+
+        if (optionalArticle.isEmpty()) {
+            redirectAttributes.addFlashAttribute("warning", "पृष्ठ फेला परेन");
+            return "redirect:/";
+        }
+
+        Article article = optionalArticle.get();
+
+        if(!article.getAuthor().getEmail().equals(authentication.getPrincipal().getAttribute("email"))) {
+            redirectAttributes.addFlashAttribute("warning", "अनाधिकृत कार्य");
+            return "redirect:/";
+        }
+
+        model.addAttribute("article", article);
+
+        return "article/delete";
+    }
+
+    @PostMapping("/article/{articleId}/delete")
+    public String remove(@PathVariable Long articleId, RedirectAttributes redirectAttributes, OAuth2AuthenticationToken authentication) {
+        Optional<Article> optionalArticle = articleService.findById(articleId);
+
+        if (optionalArticle.isEmpty()) {
+            redirectAttributes.addFlashAttribute("warning", "पृष्ठ फेला परेन");
+            return "redirect:/";
+        }
+
+        Article article = optionalArticle.get();
+
+        if(!article.getAuthor().getEmail().equals(authentication.getPrincipal().getAttribute("email"))) {
+            redirectAttributes.addFlashAttribute("warning", "अनाधिकृत कार्य");
+            return "redirect:/";
+        }
+
+        articleService.deleteArticle(article);
+
+        return "redirect:/";
+    }
+
     @GetMapping("/article/create")
     public String create(Model model, OAuth2AuthenticationToken authentication) {
         if (!model.containsAttribute("article")) {

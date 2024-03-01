@@ -31,7 +31,6 @@ public class Article {
     @Column(length = 2048)
     private String content;
 
-    @Transient
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 

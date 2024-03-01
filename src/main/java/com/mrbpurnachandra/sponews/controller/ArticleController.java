@@ -168,8 +168,8 @@ public class ArticleController {
     }
 
     @ResponseBody
-    @PostMapping("/article/{id}/tag")
-    public TagDTO addTag(@PathVariable("id") Long id, @Valid Tag tag, OAuth2AuthenticationToken authentication) {
+    @PostMapping("/article/{articleId}/tag")
+    public TagDTO addTag(@PathVariable("articleId") Long id, @Valid Tag tag, OAuth2AuthenticationToken authentication) {
         Optional<Article> optionalArticle = articleService.findById(id);
 
         Article article = optionalArticle.orElseThrow(ArticleNotFoundException::new);
@@ -180,9 +180,9 @@ public class ArticleController {
 
         tag.setArticle(article);
 
-       Tag savedTag = articleService.saveTag(tag);
+        Tag savedTag = articleService.saveTag(tag);
 
-       return new TagDTO(savedTag.getId(), savedTag.getName());
+        return new TagDTO(savedTag.getId(), savedTag.getName());
     }
 
     @GetMapping("/article/search")

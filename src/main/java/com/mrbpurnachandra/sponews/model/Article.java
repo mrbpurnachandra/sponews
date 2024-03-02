@@ -53,7 +53,7 @@ public class Article {
     }
 
     public String getFormattedDate() {
-        var formatter = new SimpleDateFormat("EEE, d MMM yyyy", Locale.of("ne"));
+        var formatter = new SimpleDateFormat("EEE, d MMM yyyy", Locale.forLanguageTag("ne"));
 
         return formatter.format(this.publishedOn);
     }

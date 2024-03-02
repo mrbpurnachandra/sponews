@@ -13,7 +13,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public DateFormat dateFormat() {
-        return new SimpleDateFormat("EEE, d MMM yyyy", Locale.of("ne"));
+        return new SimpleDateFormat("EEE, d MMM yyyy", Locale.forLanguageTag("ne"));
     }
 
     @Bean

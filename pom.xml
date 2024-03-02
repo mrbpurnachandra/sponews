@@ -15,7 +15,7 @@
 	<name>sponews</name>
 	<description>Web portal for sport related news.</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
         <spring-cloud-gcp.version>4.9.1</spring-cloud-gcp.version>
 	</properties>
     <dependencyManagement>

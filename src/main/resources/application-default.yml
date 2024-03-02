@@ -1,0 +1,5 @@
+spring:
+  cloud:
+    gcp:
+      credentials:
+        location: "classpath:firebase-storage-credentials.json"
